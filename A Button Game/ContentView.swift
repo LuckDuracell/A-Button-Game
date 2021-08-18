@@ -41,18 +41,20 @@ struct ContentView: View {
                     .frame(width: 170, height: 170, alignment: .center)
                 Button {
                     if isLongPressing {
-                        self.isLongPressing.toggle()
-                        self.timer?.invalidate()
-                        
-                        lastScore = giveScore(counter: counter, goal: Double(goal))
-                        if lastScore == 100 {
-                            issue = "Too- wait, you got it?"
-                        } else if counter > Double(goal) {
-                            issue = "Too Long!"
-                        } else if counter < Double(goal) {
-                            issue = "Too Soon!"
+                        if showRetry == false {
+                            self.isLongPressing.toggle()
+                            self.timer?.invalidate()
+                            
+                            lastScore = giveScore(counter: counter, goal: Double(goal))
+                            if lastScore == 100 {
+                                issue = "Too- wait, you got it?"
+                            } else if counter > Double(goal) {
+                                issue = "Too Long!"
+                            } else if counter < Double(goal) {
+                                issue = "Too Soon!"
+                            }
+                            showRetry = true
                         }
-                        showRetry = true
                     }
                 } label: {
                 Circle()
@@ -63,20 +65,24 @@ struct ContentView: View {
                     .background(Color.clear)
                 }
                 .simultaneousGesture(LongPressGesture(minimumDuration: 0.01).onEnded { _ in
-                    self.isLongPressing = true
-                    self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
-                        counter += 0.1
-                    })
+                    if showRetry == false {
+                        self.isLongPressing = true
+                        self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
+                            counter += 0.1
+                        })
+                    }
                 })
             }
             Spacer()
             Button {
-                counter = 0
-                goal = Int.random(in: 1...25)
-                issue = ""
-                showRetry = false
+                if showRetry {
+                    counter = 0
+                    goal = Int.random(in: 1...25)
+                    issue = ""
+                    showRetry = false
+                }
             } label: {
-                Text("Retry")
+                Text(showRetry ? "Retry" : " ")
                     .padding()
             }
             Spacer()
