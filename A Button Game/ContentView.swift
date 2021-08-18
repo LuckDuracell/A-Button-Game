@@ -26,7 +26,7 @@ struct ContentView: View {
                 .padding(40)
             if issue != "" {
                 Text("\(issue)")
-                Text("Last Score: \(lastScore)")
+                Text("Score: \(lastScore)")
                     .padding()
             }
             
@@ -69,6 +69,7 @@ struct ContentView: View {
                 Button {
                     counter = 0
                     goal = Int.random(in: 1...25)
+                    issue = ""
                     showRetry = false
                 } label: {
                     Text("Retry")
