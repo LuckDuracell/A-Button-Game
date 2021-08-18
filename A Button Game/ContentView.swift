@@ -16,6 +16,8 @@ struct ContentView: View {
     @State var goal: Int = Int.random(in: 1...25)
     @State var lastScore: Int = 0
     @State var issue = ""
+    @State var showRetry = false
+    
     var body: some View {
         VStack {
             Text("\(goal)")
@@ -45,8 +47,7 @@ struct ContentView: View {
                         } else if counter < Double(goal) {
                             issue = "Too Soon!"
                         }
-                        counter = 0
-                        goal = Int.random(in: 1...25)
+                        showRetry = true
                     }
                 } label: {
                 Circle()
@@ -63,7 +64,18 @@ struct ContentView: View {
                     })
                 })
             }
-        }
+        } .toolbar(content: {
+            ToolbarItemGroup(placement: .bottomBar, content: {
+                Button {
+                    counter = 0
+                    goal = Int.random(in: 1...25)
+                    showRetry = false
+                } label: {
+                    Text("Retry")
+                        .padding()
+                }
+            })
+        })
     }
 }
 
