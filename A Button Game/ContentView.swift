@@ -20,6 +20,7 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
+            Spacer()
             Text("\(goal)")
                 .font(.title)
                 .bold()
@@ -27,6 +28,10 @@ struct ContentView: View {
             if issue != "" {
                 Text("\(issue)")
                 Text("Score: \(lastScore)")
+                    .padding()
+            } else {
+                Text(" ")
+                Text(" ")
                     .padding()
             }
             
@@ -64,19 +69,19 @@ struct ContentView: View {
                     })
                 })
             }
-        } .toolbar(content: {
-            ToolbarItemGroup(placement: .bottomBar, content: {
-                Button {
-                    counter = 0
-                    goal = Int.random(in: 1...25)
-                    issue = ""
-                    showRetry = false
-                } label: {
-                    Text("Retry")
-                        .padding()
-                }
-            })
-        })
+            Spacer()
+            Button {
+                counter = 0
+                goal = Int.random(in: 1...25)
+                issue = ""
+                showRetry = false
+            } label: {
+                Text("Retry")
+                    .padding()
+            }
+            Spacer()
+        }
+        
     }
 }
 
