@@ -36,8 +36,8 @@ struct ContentView: View {
             }
             
             ZStack {
-                Circle()
-                    .foregroundColor(.gray)
+                LinearGradient(gradient: Gradient(colors: [Color("specialGray"), .gray]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                    .clipShape(Circle())
                     .frame(width: 170, height: 170, alignment: .center)
                 Button {
                     if isLongPressing {
@@ -57,8 +57,8 @@ struct ContentView: View {
                         }
                     }
                 } label: {
-                Circle()
-                    .foregroundColor(.red)
+                    LinearGradient(gradient: Gradient(colors: [.pink, .red]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                        .clipShape(Circle())
                     .frame(width: 150, height: 150, alignment: .center)
                     .scaleEffect(isLongPressing ? 0.95 : 1)
                     .shadow(color: .black, radius: 5, x: 10, y: 10)
@@ -85,9 +85,19 @@ struct ContentView: View {
                 Text(showRetry ? "Retry" : " ")
                     .padding()
             }
+            Button {
+                guard let urlShare = URL(string: "https://apps.apple.com/us/app/a-button-game/id1581722686") else { return }
+                       let activityVC = UIActivityViewController(activityItems: [urlShare], applicationActivities: nil)
+                       UIApplication.shared.windows.first?.rootViewController?
+                        .present(activityVC, animated: true, completion: nil)
+            } label: {
+                Text("Share App")
+                    .padding()
+            }
             Spacer()
+                
         }
-        
+        .background(Color("bg"))
     }
 }
 
