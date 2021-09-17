@@ -18,7 +18,10 @@ struct ContentView: View {
     @State var issue = ""
     @State var showRetry = false
     
+    @State var showShareSheet = false
+    
     var body: some View {
+        ZStack {
         VStack {
             Spacer()
             Text("\(goal)")
@@ -85,17 +88,23 @@ struct ContentView: View {
                 Text(showRetry ? "Retry" : " ")
                     .padding()
             }
+            if UIDevice.current.userInterfaceIdiom == .phone {
             Button {
                 guard let urlShare = URL(string: "https://apps.apple.com/us/app/a-button-game/id1581722686") else { return }
                        let activityVC = UIActivityViewController(activityItems: [urlShare], applicationActivities: nil)
-                       UIApplication.shared.windows.first?.rootViewController?
-                        .present(activityVC, animated: true, completion: nil)
+                activityVC.title = "Share the app with your friends!"
+                
+                UIApplication.shared.windows.first?.rootViewController?
+                    .present(activityVC, animated: true, completion: nil)
+                
             } label: {
                 Text("Share App")
                     .padding()
             }
+            }
             Spacer()
                 
+        }
         }
         .background(Color("bg"))
     }
@@ -106,6 +115,7 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
 
 func giveScore(counter: Double, goal: Double) -> Int {
     let number = counter.distance(to: goal)
